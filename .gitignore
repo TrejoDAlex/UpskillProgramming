@@ -4,6 +4,7 @@
 
 ## User settings
 xcuserdata/
+*.xcuserstate
 
 ## Obj-C/Swift specific
 *.hmap
@@ -14,8 +15,8 @@ xcuserdata/
 *.dSYM
 
 ## Playgrounds
-timeline.xctimeline
-playground.xcworkspace
+*.playground/timeline.xctimeline
+*.playground/playground.xcworkspace/xcuserdata/
 
 # Swift Package Manager
 #
@@ -55,6 +56,9 @@ Carthage/Build/
 # Instead, use fastlane to re-generate the screenshots whenever they are needed.
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/#source-control
+
+# macOS noise
+.DS_Store
 
 fastlane/report.xml
 fastlane/Preview.html
