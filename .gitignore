@@ -64,38 +64,3 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
-
-[alias]
-    wrapup = "!f() { \
-        if [ -z \"$(git status --porcelain)\" ]; then \
-            echo 'Nothing to commit.'; exit 0; \
-        fi; \
-        git add -A; \
-        git commit -m \"$1\" -m \"$2\"; \
-    }; f"
-
-    shipdev = "!f() { \
-        branch=$(git symbolic-ref --short HEAD); \
-        if [ \"$branch\" = \"develop\" ]; then \
-            echo 'Already on develop — nothing to ship.'; exit 1; \
-        fi; \
-        git fetch origin; \
-        if ! git merge-base --is-ancestor origin/develop \"$branch\"; then \
-            echo \"Branch '$branch' is stale — develop has moved ahead. Run: git rebase origin/develop\"; \
-            exit 1; \
-        fi; \
-        if [ -z \"$1\" ]; then \
-            subject=$(git log -1 --format=%s \"$branch\"); \
-            body=$(git log -1 --format=%b \"$branch\"); \
-        else \
-            subject=\"$1\"; \
-            body=\"$2\"; \
-        fi; \
-        git checkout develop; \
-        git pull --ff-only origin develop || { echo 'develop not fast-forwardable — resolve manually.'; exit 1; }; \
-        git merge --squash \"$branch\" || { echo 'Conflict during squash-merge — resolve, commit, and push manually.'; exit 1; }; \
-        git commit -m \"$subject\" -m \"$body\"; \
-        git push origin develop; \
-        echo \"Shipped '$branch' to develop using message: '$subject'\"; \
-        echo \"Branch left intact — delete manually when ready.\"; \
-    }; f"
